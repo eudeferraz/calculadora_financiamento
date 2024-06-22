@@ -3,7 +3,7 @@ public class Calculadora {
     public static double calcularPagamentoMensal(double valorFinanciamento, int duracaoFinanciamento,
             double taxaJurosAnual) { 
         
-                // amortização mensal
+        // amortização mensal
         double amortizacaoMensal = valorFinanciamento / duracaoFinanciamento;
         System.out.println(amortizacaoMensal);
 
