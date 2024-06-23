@@ -90,8 +90,10 @@ public class TelaUsuario {
             double taxaJurosAnual = Double.parseDouble(taxaJurosAnualInput.getText());
             int duracaoFinanciamento = Integer.parseInt(duracaoFinanciamentoInput.getText());
 
-            double pagamentoMensal = Calculadora.calcularPagamentoMensal(valorFinanciamento, duracaoFinanciamento, taxaJurosAnual);
-            resultado.setText("Parcelas mensais: $" + Math.floor(pagamentoMensal));
+            Financiamento financiamento = new Financiamento(valorFinanciamento, taxaJurosAnual, duracaoFinanciamento);
+
+            double resultadoCalculo = financiamento.calcularPagamentoMensal(valorFinanciamento, duracaoFinanciamento, taxaJurosAnual);
+            resultado.setText("Parcelas mensais: $" + Math.floor(resultadoCalculo));
         }
 
     }
