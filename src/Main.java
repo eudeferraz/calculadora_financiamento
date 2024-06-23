@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public class Main {
 
@@ -14,7 +13,7 @@ public class Main {
             telaUsuario.exibir();
 
         } catch (Exception e) {
-            System.out.println("Ocorreu um erro ao receber os dados de entrada do usuário: " + e);
+            System.out.println("Ocorreu um erro ao chamar a classe responsável por exibir e calcular o financiamento (main): " + e);
         }
 
     }

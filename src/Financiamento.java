@@ -18,27 +18,31 @@ public class Financiamento {
 
         // amortização mensal
         double amortizacaoMensal = valorFinanciamento / duracaoFinanciamento;
-        System.out.println(amortizacaoMensal);
 
         // taxa juros mensal
         double taxaJurosMensal = (taxaJurosAnual / 100) / 12;
-        System.out.println(taxaJurosMensal);
 
         // juros sobre cada parcela
         double parcelaJurosMensal = valorFinanciamento * taxaJurosMensal;
-        System.out.println(parcelaJurosMensal);
 
         // calcula pagamento total ao mês
         double pagamentoMensal = parcelaJurosMensal + amortizacaoMensal;
-        System.out.println(pagamentoMensal);
 
+        System.out.println(pagamentoMensal * duracaoFinanciamento);
+
+        // retorna o total do pagamento mensal
         return pagamentoMensal;
     }
 
     // metodo para calcular o total do pagamento
     public double calcularTotalPagamento(double valorFinanciamento, double taxaJurosAnual) {
+        // calcula o total dos juros
+        double juros = valorFinanciamento * (taxaJurosAnual/100);
         
-        double pagamentoTotal = valorFinanciamento + valorFinanciamento * (taxaJurosAnual/100);
+        // calcula o total do pagamento + juros
+        double pagamentoTotal = valorFinanciamento + juros;
+        
+        //retorna o valor
         return pagamentoTotal;
     }
 }
