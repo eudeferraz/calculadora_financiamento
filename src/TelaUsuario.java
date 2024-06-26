@@ -1,8 +1,13 @@
 import java.awt.event.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.*;
 
 public class TelaUsuario {
+
+    // variaveis
+    private int count = 0;
+    ArrayList<String> financiamentos = new ArrayList<String>();
 
     // componentes da tela
     private JFrame frame;
@@ -12,6 +17,7 @@ public class TelaUsuario {
     private JTextField duracaoFinanciamentoInput;
     private JButton btnSimular;
     private JTextArea resultado;
+    private JTextField status;
 
     // entradas
     private JLabel tipoImovelLabel;
@@ -19,21 +25,13 @@ public class TelaUsuario {
     private JLabel taxaJurosAnualLabel;
     private JLabel duracaoFinanciamentoLabel;
 
-    private void limpar() {
-        tipoImovelInput.setSelectedItem("Selecione");
-        valorFinanciamentoInput.setText(null);
-        taxaJurosAnualInput.setText(null);
-        duracaoFinanciamentoInput.setText(null);
-
-    }
-
     // metodo para exibir a tela de input para o usuário
     public void exibir() {
 
         try {
 
             frame = new JFrame("Simulador de Financiamento");
-            frame.setBounds(100, 100, 730, 489);
+            frame.setBounds(100, 100, 920, 489);
             frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().setLayout(null);
@@ -82,7 +80,7 @@ public class TelaUsuario {
             frame.getContentPane().add(btnSimular);
 
             resultado = new JTextArea("");
-            resultado.setBounds(65, 200, 600, 200);
+            resultado.setBounds(65, 200, 800, 130);
             frame.getContentPane().add(resultado);
 
             frame.setVisible(true);
@@ -91,25 +89,40 @@ public class TelaUsuario {
             System.out.println(
                     "Ocorreu um erro ao chamar o método de exibir os campos para o usuário inputar os dados solicitados: "
                             + e);
-
         }
 
     }
 
+    private void limpar() {
+        tipoImovelInput.setSelectedItem("Selecione");
+        valorFinanciamentoInput.setText(null);
+        taxaJurosAnualInput.setText(null);
+        duracaoFinanciamentoInput.setText(null);
+
+    }
+
+    private void exibirResultado() {
+        // stringBuilder para construir a mensagem final
+        StringBuilder resultadoFinal = new StringBuilder();
+        // itera sobre cada item de financiamento calculado
+        for (String financiamento : financiamentos) {
+            resultadoFinal.append(financiamento).append("\n");
+        }
+
+        resultado.append(resultadoFinal.toString());
+
+    }
 
     // classe para pegar os dados e calcular o resultado
     private class CalcularListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             try {
-                // variáveis da tela
-                String tipoImovel = (String) tipoImovelInput.getSelectedItem();
+
+                // String tipoImovel = (String) tipoImovelInput.getSelectedItem();
                 double valorFinanciamento = Double.parseDouble(valorFinanciamentoInput.getText());
                 double taxaJurosAnual = Double.parseDouble(taxaJurosAnualInput.getText());
                 int duracaoFinanciamento = Integer.parseInt(duracaoFinanciamentoInput.getText());
-
-                //variaveis
-                ArrayList<String> financiamentos = new ArrayList<String>();
                 String mensagemFinal;
 
                 Financiamento financiamento = new Financiamento(valorFinanciamento, taxaJurosAnual,
@@ -119,22 +132,35 @@ public class TelaUsuario {
                         duracaoFinanciamento,
                         taxaJurosAnual);
 
-                double resultadoCalculoFinanciamentoTotal = financiamento.calcularTotalPagamento(valorFinanciamento, taxaJurosAnual);
+                double resultadoCalculoFinanciamentoTotal = financiamento.calcularTotalPagamento(valorFinanciamento,
+                        taxaJurosAnual);
 
-                mensagemFinal = "Financiamento 1 - valor do imóvel: R$" + valorFinanciamento + "\nvalor do financiamento: R$" + resultadoCalculoFinanciamentoTotal + "\nvalor das parcelas mensais: R$" + resultadoCalculoParcelasMensais; 
+                mensagemFinal = "Financiamento " + (1 + count) + " - valor do imóvel: R$" + valorFinanciamento
+                        + " valor do financiamento: R$" + resultadoCalculoFinanciamentoTotal
+                        + " valor das parcelas mensais: R$" + resultadoCalculoParcelasMensais;
 
                 financiamentos.add(mensagemFinal);
-                limpar();
-               
-                resultado.append(mensagemFinal);
+                count++;
 
-            } catch (Exception ex) {
+                if (count < 4) {
+                    resultado.setText("Preencha o formulário novamente (mais " + (4 - count) + " vezes).");
+                    limpar();
+
+                } else {
+                    limpar();
+                    resultado.setText(null);
+                    exibirResultado();
+
+                }
+
+            } catch (
+
+            Exception ex) {
                 System.out.println("Ocorreu um erro ao receber os dados de entrada do usuário: " + ex);
             }
 
         }
 
     }
-
 
 }

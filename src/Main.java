@@ -12,6 +12,8 @@ public class Main {
             TelaUsuario telaUsuario = new TelaUsuario();
             telaUsuario.exibir();
 
+        
+
         } catch (Exception e) {
             System.out.println("Ocorreu um erro ao chamar a classe responsável por exibir e calcular o financiamento (main): " + e);
         }
